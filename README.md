@@ -1,5 +1,9 @@
-# get_Schools_Login_URL_in_DailyCP
-获取高校今日校园登录接口
+# 获取高校今日校园登录接口
+
+安装依赖：
+```shell
+pip install -r requirements.txt -t ./
+```
 
 主界面：
 

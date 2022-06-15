@@ -7,9 +7,9 @@
 
 import json
 import webbrowser
-from tkinter import *
-from tkinter.constants import END
-
+from tkinter import Label, Entry, Button, Text, Listbox, Scrollbar, Tk
+from tkinter.constants import END, N, S
+import pyperclip
 import requests
 
 
@@ -20,8 +20,17 @@ class GUI():
         self.init_window_name = init_window_name
     # 设置窗口
     def set_init_window(self):
-        self.init_window_name.title("查询高校今日校园登录接口")  
-        self.init_window_name.geometry('510x612+500+70')
+        self.init_window_name.title("查询高校今日校园登录接口")
+        # 设置窗口大小
+        winWidth = 510
+        winHeight = 612
+        # 获取屏幕的尺寸
+        screen_width = self.init_window_name.winfo_screenwidth()
+        screen_height = self.init_window_name.winfo_screenheight()
+        # 定义窗口的位置
+        winPositionX = int(screen_width / 2) - int(winWidth / 2)
+        winPositionY = int(screen_height / 2) - int(winHeight / 2)
+        self.init_window_name.geometry(f'{winWidth}x{winHeight}+{winPositionX}+{winPositionY}')
         self.init_window_name.resizable(width=False, height=False) # 禁止改变窗口大小
         # self.init_window_name.iconbitmap('logo.ico')
         
@@ -48,11 +57,11 @@ class GUI():
         # 文本框
         self.result_data_Text = Text(self.init_window_name, width=56, height=34,font=("宋体",13))  #处理结果展示
         self.result_data_Text.grid(row=1, column=0, rowspan=15, columnspan=4)
-        self.result_data_Text.insert(1.0, '\n Tips: \n\n   1.请输入学校名称，点击查询按钮即可查询\n\n   2.支持模糊搜索\n\n   3.查询到URL,双击URL可直接在浏览器打开\n\n   4.点击输入框可清空已输入内容\n\n\n\n\n\n')
+        self.result_data_Text.insert(1.0, '\n Tips: \n\n   1.请输入学校名称，点击查询按钮即可查询\n\n   2.支持模糊搜索\n\n   3.双击学校名可将其复制到剪贴板\n\n   4.查询到URL,双击URL可直接在浏览器打开\n\n   5.点击输入框可清空已输入内容\n\n\n\n\n\n')
         self.result_data_Text.insert(END,'________________________________________________________\n\n')
         self.result_data_Text.insert(END,'\n Author : Qiuyelin')
-        self.result_data_Text.insert(END,'\n Version	: 1.0')
-        self.result_data_Text.insert(END,'\n 2022.05.05   By Python 3.8.3')
+        self.result_data_Text.insert(END,'\n Version	: 1.1')
+        self.result_data_Text.insert(END,'\n 2022.06.15   By Python 3.8.3')
 
     # 删除文本框控件
     def delete_Text(self):
@@ -104,6 +113,9 @@ class GUI():
         # 如果为URL,打开URL
         if 'http' in line_content:
             webbrowser.open(line_content)
+        # 否则复制到剪贴板
+        elif line_content != '':
+            pyperclip.copy(line_content)
 
 
 
