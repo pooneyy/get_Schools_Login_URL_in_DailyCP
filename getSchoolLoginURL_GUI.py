@@ -16,6 +16,9 @@ import requests
 class GUI():
     '''窗口对象'''
 
+    response = requests.get('https://mobile.campushoy.com/v6/config/guest/tenant/list')
+    data = json.loads(response.text).get('data')
+
     def __init__(self,init_window_name):
         self.init_window_name = init_window_name
     # 设置窗口
@@ -60,8 +63,8 @@ class GUI():
         self.result_data_Text.insert(1.0, '\n Tips: \n\n   1.请输入学校名称，点击查询按钮即可查询\n\n   2.支持模糊搜索\n\n   3.双击学校名可将其复制到剪贴板\n\n   4.查询到URL,双击URL可直接在浏览器打开\n\n   5.点击输入框可清空已输入内容\n\n\n\n\n\n')
         self.result_data_Text.insert(END,'________________________________________________________\n\n')
         self.result_data_Text.insert(END,'\n Author : Qiuyelin')
-        self.result_data_Text.insert(END,'\n Version	: 1.1')
-        self.result_data_Text.insert(END,'\n 2022.06.15   By Python 3.8.3')
+        self.result_data_Text.insert(END,'\n Version	: 1.1.1')
+        self.result_data_Text.insert(END,'\n 2022.07.17   By Python 3.8.3')
 
     # 删除文本框控件
     def delete_Text(self):
@@ -84,8 +87,6 @@ class GUI():
         self.create_LineBox()
         self.delete_Text()
         schoolName = self.init_data_input.get()
-        response = requests.get('https://mobile.campushoy.com/v6/config/guest/tenant/list')
-        data = json.loads(response.text).get('data')
         # 清空列表框
         self.result_data_List.delete(0, END)
         # self.result_data_Text.delete(1.0,END)
@@ -93,7 +94,7 @@ class GUI():
         if schoolName == '':
             self.result_data_List.insert('1', '输入框为空')
         else:
-            for i in data:
+            for i in GUI.data:
                 if schoolName in i.get('name'):
                     # 如果idsUrl存在
                     if i.get('idsUrl'):
